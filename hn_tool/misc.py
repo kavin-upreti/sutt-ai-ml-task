@@ -1,8 +1,7 @@
 import re
 from typing import Any, Dict, List
 
-
-def clean_text(text: str) -> str:
+def clean_text(text) -> str:
     """
     Get text which is actually relevant instead of everything given in the comment text
     """
@@ -29,7 +28,7 @@ def clean_text(text: str) -> str:
     return cleaned_text
 
 
-def get_best_comments(comments: List[Dict[str, Any]], limit: int = 5) -> List[Dict[str, Any]]:
+def get_best_comments(comments: List[Dict[str, Any]], limit = 5) -> List[Dict[str, Any]]:
     """
     Sort comments according to relevance, giving upvotes the higher priority than depth
     """
