@@ -19,8 +19,8 @@ def fetch_item(cache: Dict[int, Dict[str, Any]], item_id) -> Optional[Dict[str, 
         item_data = response.json()
         cache[item_id] = item_data # store it in cache for future use
         return item_data
-    except requests.RequestException as error:
-        print(f"Error fetching item {item_id}: {error}")
+    except requests.RequestException as e:
+        print(f"Error fetching item {item_id}: {e}")
         return None
 
 
@@ -47,8 +47,8 @@ def fetch_stories(query, max_stories) -> List[Dict[str, Any]]:
 
         print(f"Returning top {max_stories} out of the {len(stories)} found stories for query: {query}")
         return stories[:max_stories]
-    except requests.RequestException as error:
-        print(f"Error fetching stories: {error}")
+    except requests.RequestException as e:
+        print(f"Error fetching stories: {e}")
         return []
 
 
@@ -110,7 +110,7 @@ def fetch_comments_for_story(cache: Dict[int, Dict[str, Any]], story_id) -> List
                 cache=cache,
                 comment_id=comment_id,
                 depth=0,
-                root_id = story_id
+                root_id = None
             ): comment_id for comment_id in comment_ids
         }
         # we had this reverse mapping done as we need to know which comment the future result pertains to
@@ -124,8 +124,8 @@ def fetch_comments_for_story(cache: Dict[int, Dict[str, Any]], story_id) -> List
             try:
                 comment_list = future.result() # returns the result that the executor got
                 comments.extend(comment_list)
-            except Exception as error:
-                print(f"Error fetching comment {comment_id}: {error}")
+            except Exception as e:
+                print(f"Error fetching comment {comment_id}: {e}")
 
     print(f"Fetched {len(comments)} comments for story {story_id} (title: {show_title})")
     return comments
