@@ -31,7 +31,7 @@ def structure_comments(comments: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             "position": comment.get("position", 0),
             "parent": comment.get("parent", 0), # stage 2 -> preserve parent
             "root_id": comment.get("root_id"),
-            "time": datetime.fromtimestamp(comment.get("time")) # stage 2 -> preserve time
+            "time": datetime.fromtimestamp(comment.get("time")) if comment.get("time") else None # stage 2 -> preserve time
         } # all the relevant parameters are introduced, which are used by the AI or during the audit etc
 
         structured_comments.append(structured_comment)
