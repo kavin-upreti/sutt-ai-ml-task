@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
+from typing import Optional
 
-def load_api_key() -> str:
+def load_api_key() -> Optional[str]:
     """
     Get the API key from the environmental variables
     """
