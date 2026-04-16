@@ -5,8 +5,7 @@ from groq import Groq
 
 from .misc import get_best_comments
 
-
-def generate_digest(client: Groq, query: str, stories: List[Dict[str, Any]], all_comments: List[Dict[str, Any]]) -> str:
+def generate_digest(client: Groq, query, stories: List[Dict[str, Any]], all_comments: List[Dict[str, Any]]) -> str:
     """
     Generate a digest using the story and the relevant comments for the user to read 
     """
@@ -78,7 +77,7 @@ def generate_digest(client: Groq, query: str, stories: List[Dict[str, Any]], all
         return f"Error generating digest: {error}"
 
 
-def build_context(query: str, digest: str, comments: List[Dict[str, Any]], chat_history: List[Dict[str, str]], conversation_summary: str) -> str:
+def build_context(query, digest, comments: List[Dict[str, Any]], chat_history: List[Dict[str, str]], conversation_summary) -> str:
     """
     Generate context for the AI itself so that it can know what happened before
     """
@@ -94,7 +93,7 @@ def build_context(query: str, digest: str, comments: List[Dict[str, Any]], chat_
         context += "PREVIOUS CONVERSATION SUMMARY:\n"
         context += conversation_summary + "\n\n"
 
-    if chat_history != '':
+    if len(chat_history)!=0:
         context += "RECENT CONVERSATION WITH THE USER:\n"
         for message in chat_history:
             role = "USER" if message["role"] == "user" else "ASSISTANT"
@@ -133,7 +132,7 @@ def summarize_old_messages(client: Groq, old_messages: List[Dict[str, str]]) -> 
 
     Keep it concise, not more than 4 sentences, but do not forget any important information.
     This context will be used in case a user asks a question from multiple messages before, so make it extremely fit for the task.
-    
+
     Conversation:
     {conversation_text}
     """
@@ -152,7 +151,7 @@ def summarize_old_messages(client: Groq, old_messages: List[Dict[str, str]]) -> 
         return "Previous conversation covered different parts of the topic."
 
 
-def chat_with_data(client: Groq, question: str, context: str) -> str:
+def chat_with_data(client: Groq, question, context) -> str:
     """
     Chat with the user strictly using the data provided in the context only 
     """
@@ -190,7 +189,7 @@ def chat_with_data(client: Groq, question: str, context: str) -> str:
         return f"Error generating response: {error}"
 
 
-def generate_audit(client: Groq, query: str, stats: Dict[str, Any]) -> str:
+def generate_audit(client: Groq, query, stats: Dict[str, Any]) -> str:
     """
     Create an audit report on the data received, quality of data and data used and discarded
     """
