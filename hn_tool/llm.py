@@ -73,8 +73,8 @@ def generate_digest(client: Groq, query, stories: List[Dict[str, Any]], all_comm
         )
 
         return chat_completion.choices[0].message.content
-    except Exception as error:
-        return f"Error generating digest: {error}"
+    except Exception as e:
+        return f"Error generating digest: {e}"
 
 
 def build_context(query, digest, comments: List[Dict[str, Any]], chat_history: List[Dict[str, str]], conversation_summary) -> str:
@@ -146,8 +146,8 @@ def summarize_old_messages(client: Groq, old_messages: List[Dict[str, str]]) -> 
         )
 
         return response.choices[0].message.content
-    except Exception as error:
-        print(f"Error summarizing conversation: {error}")
+    except Exception as e:
+        print(f"Error summarizing conversation: {e}")
         return "Previous conversation covered different parts of the topic."
 
 
@@ -185,8 +185,8 @@ def chat_with_data(client: Groq, question, context) -> str:
         )
 
         return response.choices[0].message.content
-    except Exception as error:
-        return f"Error generating response: {error}"
+    except Exception as e:
+        return f"Error generating response: {e}"
 
 
 def generate_audit(client: Groq, query, stats: Dict[str, Any]) -> str:
@@ -231,5 +231,5 @@ def generate_audit(client: Groq, query, stats: Dict[str, Any]) -> str:
         )
 
         return response.choices[0].message.content
-    except Exception as error:
-        return f"Error generating audit: {error}"
+    except Exception as e:
+        return f"Error generating audit: {e}"
