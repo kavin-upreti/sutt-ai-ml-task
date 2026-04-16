@@ -1,5 +1,4 @@
 from typing import Any, Dict, List
-
 from groq import Groq
 
 from .config import load_api_key
@@ -13,7 +12,7 @@ class HNIntelligenceTool:
         self.cache: Dict[int, Dict[str, Any]] = {} # {story_id/comment_id: {"key": value}, ..}
         self.client = Groq(api_key=load_api_key())
 
-    def start_chat_interface(self, query: str, digest: str, structured_comments: List[Dict[str, Any]]) -> List[Dict[str, str]]:
+    def start_chat_interface(self, query, digest, structured_comments: List[Dict[str, Any]]) -> List[Dict[str, str]]:
         """
         Let the user ask further questions using information provided in the generated digest
         """
@@ -46,7 +45,7 @@ class HNIntelligenceTool:
 
         return chat_history
 
-    def run(self, query: str, max_stories: int = 5) -> None:
+    def run(self, query, max_stories = 5) -> None:
         """
         Run the program
         """
@@ -70,7 +69,7 @@ class HNIntelligenceTool:
 
         structured_comments = structure_comments(all_comments) # remake comments with relevant parameters
         structured_comments.sort(
-            key=lambda c: (c["parent"], c["position"], (-c["upvotes"] if isinstance(c["upvotes"], int) else 0))
+            key=lambda c: (c["root_id"], c["position"], (-c["upvotes"] if isinstance(c["upvotes"], int) else 0))
         ) 
         # stage 2 -> so that thread context is preserved
         # sort them so that all comments of similar id are together, and those of lower position are first, more upvotes are first
@@ -91,5 +90,4 @@ class HNIntelligenceTool:
         print("HACKER NEWS INTELLIGENCE DIGEST")
         print("-" * 80)
         print(digest)
-
         self.start_chat_interface(query, digest, structured_comments)
