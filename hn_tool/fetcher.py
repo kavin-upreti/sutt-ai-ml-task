@@ -1,10 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Dict, List, Optional
-
 import requests
 
 
-def fetch_item(cache: Dict[int, Dict[str, Any]], item_id: int) -> Optional[Dict[str, Any]]:
+def fetch_item(cache: Dict[int, Dict[str, Any]], item_id) -> Optional[Dict[str, Any]]:
     """
     Get the data of the given item, be it a story or a comment, and store it in cache
     """
@@ -25,7 +24,7 @@ def fetch_item(cache: Dict[int, Dict[str, Any]], item_id: int) -> Optional[Dict[
         return None
 
 
-def fetch_stories(query: str, max_stories: int) -> List[Dict[str, Any]]:
+def fetch_stories(query, max_stories) -> List[Dict[str, Any]]:
     """
     Get the relevant stories for the given query
     """
@@ -53,7 +52,7 @@ def fetch_stories(query: str, max_stories: int) -> List[Dict[str, Any]]:
         return []
 
 
-def fetch_comments_of_comment(cache: Dict[int, Dict[str, Any]], comment_id: int, depth: int) -> List[Dict[str, Any]]:
+def fetch_comments_of_comment(cache: Dict[int, Dict[str, Any]], comment_id, depth, root_id = None) -> List[Dict[str, Any]]:
     """
     Get all the comments of the given comment, and introduce the position of the comment 
     Position 0 signifies a reply to the story, position 1 is a reply to a comment and so on
@@ -66,6 +65,7 @@ def fetch_comments_of_comment(cache: Dict[int, Dict[str, Any]], comment_id: int,
         return []
 
     comment["position"] = depth
+    comment["root_id"] = root_id if root_id else comment_id
 
     if depth > 3 or "kids" not in comment:
         return [comment] # no need to go too far into the comment tree
@@ -73,12 +73,12 @@ def fetch_comments_of_comment(cache: Dict[int, Dict[str, Any]], comment_id: int,
     results = [comment]
 
     for child_comment_id in comment["kids"]:
-        results.extend(fetch_comments_of_comment(cache=cache, comment_id=child_comment_id, depth=depth + 1))
+        results.extend(fetch_comments_of_comment(cache=cache, comment_id=child_comment_id, depth=depth + 1, root_id = root_id))
 
     return results
 
 
-def fetch_comments_for_story(cache: Dict[int, Dict[str, Any]], story_id: int) -> List[Dict[str, Any]]:
+def fetch_comments_for_story(cache: Dict[int, Dict[str, Any]], story_id) -> List[Dict[str, Any]]:
     """
     Get all comments of a given story
     """
@@ -109,7 +109,8 @@ def fetch_comments_for_story(cache: Dict[int, Dict[str, Any]], story_id: int) ->
                 fetch_comments_of_comment,
                 cache=cache,
                 comment_id=comment_id,
-                depth=0
+                depth=0,
+                root_id = story_id
             ): comment_id for comment_id in comment_ids
         }
         # we had this reverse mapping done as we need to know which comment the future result pertains to
