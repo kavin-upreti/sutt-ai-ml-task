@@ -29,7 +29,8 @@ def structure_comments(comments: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             "upvotes": comment.get("score"), # stage 2 -> preserve upvotes
             "by": comment.get("by", "Unknown"),
             "position": comment.get("position", 0),
-            "parent": comment.get("parent", 0), # stage 2 -> present parent
+            "parent": comment.get("parent", 0), # stage 2 -> preserve parent
+            "root_id": comment.get("root_id"),
             "time": datetime.fromtimestamp(comment.get("time")) # stage 2 -> preserve time
         } # all the relevant parameters are introduced, which are used by the AI or during the audit etc
 
