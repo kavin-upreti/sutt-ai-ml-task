@@ -31,7 +31,7 @@ The data is fetched is received from two APIs:
 
 The stories returned for the digest are sorted in order of relevance where points come first and number of comments second, so that the most lively and engaging discussions are used.
 
-Instead of asking the LLM of the AI (Groq) to guess the data quality, real time statistics are computed in the code (function `compute_audit_stats()` in file `processor.py`).<br>Things like total number of raw comments fetched, how many comments were discarded (why?), average upvotes, average comment length, and date range are passed onto the LLM, which writes the data in the form of an audit and is strictly bound by the actual data fetched.
+Instead of asking the LLM of the AI (Groq) to guess the data quality, real time statistics are computed in the code (function `compute_audit_stats()` in file `processor.py`).<br>Things like total number of raw comments fetched, how many comments were discarded (and why), average upvotes, average comment length, and date range are passed onto the LLM, which writes the data in the form of an audit and is strictly bound by the actual data fetched.
 
 **What gets discarded and why:**
 - Comments with a negative score: these have been downvoted by the people and are highly unlikely to contain useful information
