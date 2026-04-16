@@ -86,8 +86,8 @@ This ensures that the LLM always has precise information of the recent conversat
 All four given edge cases are mainly handled through the prompt in function `chat_with_data()` in file `llm.py`:
 
 A. **A question that has no answer in the fetched data.**: The prompt strictly instructs the LLM to state that it does not have enough information from the fetched discussion instead of giving outside knowledge<br>
-B. **Contradictory opinions in the data**: The prompt explicitly tells the LLM to present both sides from a neutral perspective when the discussion as conflicting views instead of settling on one of them.
-C. **A question that references something from way earlier in the chat**: This is partially handled by the summarization strategy implemented in stage 4 - if a message was summarized, the exact wording is not recoverable due to LLM restraints (not going overboard with the prompt length etc), but the key information is preserved in the summary. This is a standard limitation that is hit but was the best solution I could implement.
+B. **Contradictory opinions in the data**: The prompt explicitly tells the LLM to present both sides from a neutral perspective when the discussion as conflicting views instead of settling on one of them.<br>
+C. **A question that references something from way earlier in the chat**: This is partially handled by the summarization strategy implemented in stage 4 - if a message was summarized, the exact wording is not recoverable due to LLM restraints (not going overboard with the prompt length etc), but the key information is preserved in the summary. This is a standard limitation that is hit but was the best solution I could implement.<br>
 D. **A manipulative question designed to make the bot agree with a false consensus**: The prompt instructs the LLM not to validate what is asked in the question, and to only report what the fetched discussion actually says in the form of opinions. Bounding the responses to be strictly from within the fetched data is the method used to not get swayed away.
 
 ---
