@@ -69,10 +69,10 @@ class HNIntelligenceTool:
 
         structured_comments = structure_comments(all_comments) # remake comments with relevant parameters
         structured_comments.sort(
-            key=lambda c: (c["root_id"], c["position"], (-c["upvotes"] if isinstance(c["upvotes"], int) else 0))
+            key=lambda c: (c["root_id"], c["parent"], c["position"], (-c["upvotes"] if isinstance(c["upvotes"], int) else 0))
         ) 
         # stage 2 -> so that thread context is preserved
-        # sort them so that all comments of similar id are together, and those of lower position are first, more upvotes are first
+        # sort them so that all comments of similar story's id are together, then those of the similar parent comment id are together, then those of lower position are first, and at last those with more upvotes are first
 
         # Stage 1 of program -> generate audit
         stats = compute_audit_stats(stories, all_comments, structured_comments)  # get statistics of the stories and comments
@@ -90,4 +90,5 @@ class HNIntelligenceTool:
         print("HACKER NEWS INTELLIGENCE DIGEST")
         print("-" * 80)
         print(digest)
+
         self.start_chat_interface(query, digest, structured_comments)
