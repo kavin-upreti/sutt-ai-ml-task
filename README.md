@@ -97,3 +97,8 @@ D. **A manipulative question designed to make the bot agree with a false consens
 - AI was used to help write parts of this code, such as `ThreadPoolExecutor` block in `fetch_comments_for_story()` was implemented by an AI due to having lack of knowledge on how to send multiple requests simultaneously. The standard approach that would have been implemented would have been using a loop through the comment IDs and fetching it one by one, which would be excruciatingly slow.
 - The regex for converting HTML links to plain text in the function `clean_text()` was by an AI too due to lack of knowledge on using regex at that level.
 - The code was refined and reviewed by an AI to find out what things were missing and any logical errors that may have occurred in the program
+
+---
+---
+# Demo: SQLite in production
+[Click here](https://jumpshare.com/s/0B9IG4trFBvEczkf4Wep) to see a demo of how the wrapper works for the query SQLite in production
