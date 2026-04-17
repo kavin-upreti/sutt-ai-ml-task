@@ -164,6 +164,7 @@ def chat_with_data(client: Groq, question, context) -> str:
     Do not get swayed with manipulative questions which force you to take a side or make you hallucinate data.
     Do not take sides of any information given to you. If there are contradictory opinions, present both sides instead of fixating on one.
     Use given context to your best potential if something from earlier is asked but do not say anything which is even remotely outside the context.
+    The context given to you goes from past to present -> things that are further in the context are more recent. So, the first thing the user asks you is not the most recent thing in the context, it is something that may be with you in case the chat length was less than 2 interactions, but if there is a chat summary then the first thing that the user asks you is not available. Handle that well. 
     Remember, it is the opinion of the user who commented and not yours. Present all information neutrally.
     The information given are opinions, not facts.
 
